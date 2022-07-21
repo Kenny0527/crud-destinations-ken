@@ -1,5 +1,8 @@
-const express = require("express");
-const cors = require("cors");
+import { filterObj as filter } from "./utility-functions.js";
+import express from "express";
+import cors from "cors";
+// const express = require("express");
+// const cors = require("cors");
 const server = express(); // This server is deaf
 
 server.use(cors());
@@ -11,7 +14,7 @@ server.listen(PORT, () => {
 
 console.log(`Server is now listening: 3000`);
 
-const destinationsDB = {
+const locationDB = {
   123456: {
     destination: "Eiffel Tower",
     location: "Paris",
@@ -27,12 +30,19 @@ const destinationsDB = {
 };
 
 // CREATE (OPTIONAL)
+
 // READ => DO THIS
 server.get("/", (req, res) => {
-  console.log(destinationsDB);
-  res.send(destinationsDB);
+  // filter the destination
+  const { location } = req.query;
+  filter(locationDB, location);
 });
-// GET /destinations => send back the whole db
-// UPDATE (OPTIONAL)
 
+// GET /destinations/city/:myCity => send back the whole db
+server.get("/destinations/city/:myCity", (req, res) => {
+  console.log(req.params.myCity);
+  filter(locationDB, req.params.myCity, res);
+});
+
+// UPDATE (OPTIONAL)
 // DELETE (OPTIONAL)
