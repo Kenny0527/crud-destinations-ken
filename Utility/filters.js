@@ -1,5 +1,5 @@
 export function filterObj(objTarget, location, res) {
-  if (location) {
+  if (location != undefined) {
     return res.send(
       Object.fromEntries(
         Object.entries(objTarget).filter(
